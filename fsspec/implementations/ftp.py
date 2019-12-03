@@ -247,6 +247,8 @@ class FTPFile(AbstractBufferedFile):
                 self.fs.ftp.voidresp()
             except timeout:
                 self.fs._connect()
+        except timeout:
+            self.fs._connect()
         return b"".join(out)
 
     def _upload_chunk(self, final=False):
