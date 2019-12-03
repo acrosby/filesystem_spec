@@ -247,7 +247,10 @@ class FTPFile(AbstractBufferedFile):
                 self.fs.ftp.voidresp()
             except timeout:
                 self.fs._connect()
-        except timeout:
+        except (
+            timeout,
+            OSError,
+        ):  # OSError from attempt to retrbinary on an already timed out connection
             self.fs._connect()
         return b"".join(out)
 
